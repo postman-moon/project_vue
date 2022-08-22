@@ -73,6 +73,57 @@ export default {
       ); */
 
       // 第三种：对象
+      /* this.$router.push({
+        name: "search",
+        params: {
+          keyword: this.keyword,
+        },
+        query: {
+          k: this.keyword.toUpperCase(),
+        },
+      }); */
+
+
+      /*  ***************************************************************************** */
+      // 面试题1：路由传递参数（对象写法）path是否可以结合params参数一起使用？
+      // 答：路由跳转传参的时候，对象的写法可以是name、path形式，但是需要注意的是，path这种谢大不能与params参数一起
+      /* this.$router.push({
+        path: '/search',
+        params: {
+          keyword: this.keyword,
+        },
+        query: {
+          k: this.keyword.toUpperCase(),
+        }
+      }); */
+
+      // 面试题2：如何指定params参数可传可不传
+      // 如果路由要求传递 params参数，但是你就不传递 params 参数，发现一件事情，URL 会有问题
+      // 如何指定params参数可以传递、或者不传递，在配置路由的时候 ，在占位的后面加上一个问号（params可以传递或者不传递）
+      /* this.$router.push({
+        name: 'search',
+        params: {
+          keyword: this.keyword,
+        },
+        query: {
+          k: this.keyword.toUpperCase(),
+        },
+      }); */
+
+      // 面试题3：params参数可以传递也可以不传递，但是如果传递的是空串，如何解决？
+      // 使用 undefined 解决：params 参数可以传递、不传递（空的字符串）
+      /* this.$router.push({
+        name: 'search',
+        params: {
+          keyword: '' || undefined,
+        },
+        query: {
+          k: this.keyword.toUpperCase(),
+        },
+      });  */
+
+      // 面试题4：路由组件能不能传递props数据？
+      // 可以：三种写法
       this.$router.push({
         name: "search",
         params: {

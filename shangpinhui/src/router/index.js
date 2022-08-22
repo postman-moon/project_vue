@@ -21,10 +21,22 @@ export default new VueRouter({
     },
     {
       name: 'search',
-      path: "/search/:keyword",
+      path: "/search/:keyword?",
       component: Search,
       meta: {
         show: true,
+      },
+      // 路由组件能不能传递props数据？
+      // 布尔值写法：params
+      // props: true,
+      // 对象写法：额外的给路由组件传递一些props
+      // props: { a: 1, b: 2 },
+      // 函数写法：可以 params 参数、query 参数，通过 props 传递给路由组件
+      props: ($route) => {
+        return {
+          keyword: $route.params.keyword,
+          k: $route.query.k
+        }
       }
     },
     {
