@@ -14,7 +14,10 @@
               <h3 @mousemove="changeCurrentIndex(index)">
                 <a href="">{{ c1.categoryName }}</a>
               </h3>
-              <div class="item-list clearfix" :style="{ display: currentIndex == index ? 'block' : 'none' }">
+              <div
+                class="item-list clearfix"
+                :style="{ display: currentIndex == index ? 'block' : 'none' }"
+              >
                 <div
                   class="subitem"
                   v-for="(c2, index) in c1.categoryChild"
@@ -55,6 +58,8 @@
 
 <script>
 import { mapState } from "vuex";
+import throttle from "lodash/throttle";
+
 export default {
   name: "TypeNav",
   data() {
@@ -73,12 +78,19 @@ export default {
     }),
   },
   methods: {
-    changeCurrentIndex(index) {
+    // 鼠标进入修改响应式数据 currentIndex 属性
+    changeCurrentIndex: throttle(function (index) {
+      // index：鼠标移上某一个一级分类的元素的索引值
+      // 正常情况（用户慢慢的操作）：鼠标进入，每一个一级分类h3，都会触发鼠标进入事件
+      // 非正常情况（用户操作很快）：本身全部的一级分类都应该触发鼠标进入事件，但是经过测试，只有部分 h3 触发
+      // 就是由于用户行为过快，导致浏览器反应不过来，如果当前回调函数中有一些大量业务，有可能出现卡顿现象
       this.currentIndex = index;
-    },
+    }, 50),
+
+    // 一级分类鼠标移出的事件回调
     leaveCurrentIndex() {
       this.currentIndex = -1;
-    }
+    },
   },
 };
 </script>
