@@ -84,8 +84,6 @@ export default {
     };
   },
   mounted() {
-    // 通知 Vuex 发送请求，获取数据，存储于仓库当中
-    this.$store.dispatch("categoryList");
     /* 
       当组件挂载完毕，让 show 属性变为 false
       如果不是 Home 路由组件，将 TypeNav 进行隐藏
