@@ -1,12 +1,13 @@
 <template>
   <div>
-    <h2>params参数：{{ $route.params }}</h2>
-    <h2>query参数：{{ $route.query }}</h2>
+    <TypeNav />
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  name: 'Search',
+};
 </script>
 
 <style>
