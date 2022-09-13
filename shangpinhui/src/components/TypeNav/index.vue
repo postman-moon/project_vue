@@ -126,9 +126,14 @@ export default {
           query.category3Id = category3id;
         }
 
-        location.query = query;
-
-        this.$router.push(location);
+        // 判断：如果路由跳转的时候，带有 params 参数，捎带着传递过去
+        if (this.$route.params) {
+          location.params = this.$route.params;
+          // 动态给 location 配置对象添加query属性
+          location.query = query;
+          // 路由跳转
+          this.$router.push(location);
+        }
       }
     },
 
@@ -282,7 +287,7 @@ export default {
     }
 
     .sort-enter-active {
-      transition: all .5s linear;
+      transition: all 0.5s linear;
     }
   }
 }
