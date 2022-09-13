@@ -10,6 +10,7 @@ Vue.config.productionTip = false
 import router from "@/router";
 // 引入仓库
 import store from "@/store";
+import "@/mock/mockServe";
 
 new Vue({
   render: h => h(App),
