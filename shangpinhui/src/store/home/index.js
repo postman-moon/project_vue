@@ -1,6 +1,7 @@
 import {
   reqCategoryList,
   reqGetBannerList,
+  reqGetFloorList
 } from '@/api';
 
 // state:仓库存储数据的地方
@@ -9,6 +10,8 @@ const state = {
   categoryList: [],
   // 轮播图数据
   bannerList: [],
+  // floor 数据
+  floorList: [],
 };
 
 // mutations: 修改state的唯一手段
@@ -20,6 +23,11 @@ const mutations = {
   // 轮播图
   BANNERLIST(state, bannerList) {
     state.bannerList = bannerList;
+  },
+
+  // floor
+  FLOORLIST(state, floorList) {
+    state.floorList = floorList;
   },
 };
 
@@ -41,6 +49,17 @@ const actions = {
     let result = await reqGetBannerList();
     if (result.code === 200) {
       commit('BANNERLIST', result.data);
+    }
+  },
+
+  // 获取楼层的数据
+  async getFloorList({
+    commit
+  }) {
+    let result = await reqGetFloorList();
+    console.log(result);
+    if (result.code === 200) {
+      commit('FLOORLIST', result.data);
     }
   }
 };

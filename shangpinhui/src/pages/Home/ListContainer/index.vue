@@ -3,7 +3,7 @@
     <div class="sortList clearfix">
       <div class="center">
         <!--banner轮播-->
-        <div class="swiper-container" id="mySwiper">
+        <div class="swiper-container" id="mySwiper" ref="mySwiper">
           <div class="swiper-wrapper">
             <div class="swiper-slide" v-for="item in bannerList" :key="item.id">
               <img :src="item.imgUrl" />
@@ -118,7 +118,7 @@ export default {
 
         this.$nextTick(() => {
           var mySwiper = new Swiper(
-            document.querySelector(".swiper-container"),
+            this.$refs.mySwiper,
             {
               loop: true, // 循环模式选项
 
