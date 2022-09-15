@@ -100,28 +100,44 @@ export default {
     // 派发 action：通过 Vuex 发起 ajax 请求，将数据存储在仓库中
     this.$store.dispatch("getBannerList");
 
-    setTimeout(() => {
-      var mySwiper = new Swiper(document.querySelector(".swiper-container"), {
-        loop: true, // 循环模式选项
-
-        // 如果需要分页器
-        pagination: {
-          el: ".swiper-pagination",
-          clickable :true,
-        },
-
-        // 如果需要前进后退按钮
-        navigation: {
-          nextEl: ".swiper-button-next",
-          prevEl: ".swiper-button-prev",
-        },
-      });
-    }, 2000);
   },
   computed: {
     ...mapState({
       bannerList: (state) => state.home.bannerList,
     }),
+  },
+  watch: {
+    // 监听 bannerList 数据的变化：因为这条数据发生过变化 ———— 由空数组变为数组里面有四个元素
+    bannerList: {
+      handler(newValue, oldValue) {
+        // 现在咱们通过 watch 监听 bannerList 属性的属性值的变化
+        // 如果执行 hanler 方法，代表组件实例身上这个属性的属性值已经有了
+        // 当前这个函数执行：只能保证 bannerList 数据已经有了，但是你没法保证 v-for 已经执行结束
+        // v-for 执行完毕，才有结构
+        // nextTick： 在下次 DOM 更新循环结束之后执行延迟回调，在修改数据之后立即使用这个方法，获取更新后的DOM
+
+        this.$nextTick(() => {
+          var mySwiper = new Swiper(
+            document.querySelector(".swiper-container"),
+            {
+              loop: true, // 循环模式选项
+
+              // 如果需要分页器
+              pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+              },
+
+              // 如果需要前进后退按钮
+              navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+              },
+            }
+          );
+        });
+      },
+    },
   },
 };
 </script>
