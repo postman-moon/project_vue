@@ -49,7 +49,11 @@
           </div>
           <div class="goods-list">
             <ul class="yui3-g">
-              <li class="yui3-u-1-5" v-for="(good, index) in goodsList" :key="good.id">
+              <li
+                class="yui3-u-1-5"
+                v-for="(good, index) in goodsList"
+                :key="good.id"
+              >
                 <div class="list-wrap">
                   <div class="p-img">
                     <a href="item.html" target="_blank"
@@ -128,15 +132,39 @@ import { mapGetters } from "vuex";
 import SearchSelector from "./SearchSelector/SearchSelector";
 export default {
   name: "Search",
-
   components: {
     SearchSelector,
   },
+  beforeMount() {
+    Object.assign(this.searchParams, this.$route.query, this.$route.params);
+  },
   mounted() {
-    this.$store.dispatch("getSearchList", {});
+    this.getData();
   },
   computed: {
-    ...mapGetters(['goodsList']),
+    ...mapGetters(["goodsList"]),
+  },
+  data() {
+    return {
+      searchParams: {
+        category1Id: "",
+        category2Id: "",
+        category3Id: "",
+        categoryName: "",
+        keyword: "",
+        order: "",
+        pageNo: 1,
+        pageSize: 3,
+        props: [],
+        trademark: "",
+      },
+    };
+  },
+  methods: {
+    // 获取 search 模块的数据
+    getData() {
+      this.$store.dispatch("getSearchList", this.searchParams);
+    },
   },
 };
 </script>
