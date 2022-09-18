@@ -23,3 +23,11 @@ export const reqGetFloorList = () =>
     url: "/floor",
     method: "get",
   });
+
+// 搜索商品
+export const reqGetSearchList = (params) =>
+  requests({
+    url: "/list",
+    method: "post",
+    data: params,
+  });
