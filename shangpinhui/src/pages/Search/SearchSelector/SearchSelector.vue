@@ -16,7 +16,7 @@
       <div class="fl key">{{ attr.attrName }}</div>
       <div class="fl value">
         <ul class="type-list">
-          <li v-for="(attrValue, index) in attr.attrValueList" :key="index">
+          <li v-for="(attrValue, index) in attr.attrValueList" :key="index" @click="attrInfo(attr, attrValue)">
             <a>{{ attrValue }}</a>
           </li>
         </ul>
@@ -37,6 +37,11 @@ import { mapGetters } from 'vuex';
     methods: {
       trademarkHandler(trademark) {
         this.$emit('trademarkInfo', trademark);
+      },
+
+      // 商品属性点击事件
+      attrInfo(attr, attrValue) {
+        this.$emit('attrHandler', attr, attrValue);
       }
     },
   }
