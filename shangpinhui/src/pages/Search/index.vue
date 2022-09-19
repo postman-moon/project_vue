@@ -11,7 +11,17 @@
             </li>
           </ul>
           <ul class="fl sui-tag">
-            <li class="with-x" v-if="searchParams.categoryName">{{ searchParams.categoryName }}<i @click="removeCategoryName">×</i></li>
+            <!-- 面包屑的分类名称 -->
+            <li class="with-x" v-if="searchParams.categoryName">
+              {{ searchParams.categoryName}}
+              <i @click="removeCategoryName">×</i>
+            </li>
+
+            <!-- 面包屑的关键字 -->
+            <li class="with-x" v-if="searchParams.keyword">
+              {{ searchParams.keyword}}
+              <i @click="removeKeyword">×</i>
+            </li>
           </ul>
         </div>
 
@@ -174,8 +184,24 @@ export default {
       // 修改路由地址，进行路由跳转
       if (this.$route.params) {
         this.$router.push({
-          name: 'search',
+          name: "search",
           params: this.$route.params,
+        });
+      }
+    },
+
+    // 删除关键字
+    removeKeyword() {
+      this.searchParams.keyword = undefined;
+      this.getData();
+      // 通知兄弟组件 Header 清除关键字
+      this.$bus.$emit("clear");
+
+      // 路由跳转
+      if (this.$route.query) {
+        this.$router.push({
+          name: 'search',
+          query: this.$route.query,
         });
       }
     }
@@ -185,11 +211,11 @@ export default {
     $route(newValue, oldValue) {
       Object.assign(this.searchParams, this.$route.query, this.$route.params);
       this.getData();
-      this.searchParams.category1Id = '';
-      this.searchParams.category2Id = '';
-      this.searchParams.category3Id = '';
-    }
-  }
+      this.searchParams.category1Id = "";
+      this.searchParams.category2Id = "";
+      this.searchParams.category3Id = "";
+    },
+  },
 };
 </script>
 

@@ -17,6 +17,10 @@ import "swiper/css/swiper.css"
 
 new Vue({
   render: h => h(App),
+  // 全局事件总线$bus
+  beforeCreate() {
+    Vue.prototype.$bus = this;
+  },
   router,
   store,
 }).$mount('#app')
