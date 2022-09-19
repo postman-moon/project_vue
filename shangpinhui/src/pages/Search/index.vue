@@ -11,10 +11,7 @@
             </li>
           </ul>
           <ul class="fl sui-tag">
-            <li class="with-x">手机</li>
-            <li class="with-x">iphone<i>×</i></li>
-            <li class="with-x">华为<i>×</i></li>
-            <li class="with-x">OPPO<i>×</i></li>
+            <li class="with-x" v-if="searchParams.categoryName">{{ searchParams.categoryName }}<i @click="removeCategoryName">×</i></li>
           </ul>
         </div>
 
@@ -154,7 +151,7 @@ export default {
         keyword: "",
         order: "",
         pageNo: 1,
-        pageSize: 3,
+        pageSize: 10,
         props: [],
         trademark: "",
       },
@@ -165,7 +162,34 @@ export default {
     getData() {
       this.$store.dispatch("getSearchList", this.searchParams);
     },
+
+    // 删除分类名称
+    removeCategoryName() {
+      this.searchParams.categoryName = undefined;
+      this.searchParams.category1Id = undefined;
+      this.searchParams.category2Id = undefined;
+      this.searchParams.category3Id = undefined;
+      this.getData();
+
+      // 修改路由地址，进行路由跳转
+      if (this.$route.params) {
+        this.$router.push({
+          name: 'search',
+          params: this.$route.params,
+        });
+      }
+    }
   },
+  watch: {
+    // 监听路由的信息是否发生变化，如果发生变化，再次发起请求
+    $route(newValue, oldValue) {
+      Object.assign(this.searchParams, this.$route.query, this.$route.params);
+      this.getData();
+      this.searchParams.category1Id = '';
+      this.searchParams.category2Id = '';
+      this.searchParams.category3Id = '';
+    }
+  }
 };
 </script>
 
