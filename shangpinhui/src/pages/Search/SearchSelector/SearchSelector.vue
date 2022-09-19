@@ -3,8 +3,8 @@
     <div class="type-wrap logo">
       <div class="fl key brand">品牌</div>
       <div class="value logos">
-        <ul class="logo-list" v-for="(trademark, index) in trademarkList" :key="trademark.tmId">
-          <li>{{ trademark.tmName }}</li>
+        <ul class="logo-list" >
+          <li v-for="(trademark, index) in trademarkList" :key="trademark.tmId" @click="trademarkHandler(trademark)">{{ trademark.tmName }}</li>
         </ul>
       </div>
       <div class="ext">
@@ -33,7 +33,12 @@ import { mapGetters } from 'vuex';
     name: 'SearchSelector',
     computed: {
       ...mapGetters(["attrsList", "trademarkList"])
-    }
+    },
+    methods: {
+      trademarkHandler(trademark) {
+        this.$emit('trademarkInfo', trademark);
+      }
+    },
   }
 </script>
 
