@@ -52,23 +52,19 @@
           <div class="sui-navbar">
             <div class="navbar-inner filter">
               <ul class="sui-nav">
-                <li class="active">
-                  <a href="#">综合</a>
+                <li :class="{ active: isOne }">
+                  <a>
+                    综合
+                    <span v-show="isOne && isAsc">⬆</span>
+                    <span v-show="isOne && isDesc">⬇</span>
+                  </a>
                 </li>
-                <li>
-                  <a href="#">销量</a>
-                </li>
-                <li>
-                  <a href="#">新品</a>
-                </li>
-                <li>
-                  <a href="#">评价</a>
-                </li>
-                <li>
-                  <a href="#">价格⬆</a>
-                </li>
-                <li>
-                  <a href="#">价格⬇</a>
+                <li :class="{ active: isTwo }">
+                  <a>
+                    价格
+                    <span v-show="isTwo && isAsc">⬆</span>
+                    <span v-show="isTwo && isDesc">⬇</span>
+                  </a>
                 </li>
               </ul>
             </div>
@@ -169,6 +165,18 @@ export default {
   },
   computed: {
     ...mapGetters(["goodsList"]),
+    isOne() {
+      return this.searchParams.order.indexOf("1") != -1;
+    },
+    isTwo() {
+      return this.searchParams.order.indexOf("2") != -1;
+    },
+    isAsc() {
+      return this.searchParams.order.indexOf("asc") != -1;
+    },
+    isDesc() {
+      return this.searchParams.order.indexOf("desc") != -1;
+    },
   },
   data() {
     return {
@@ -178,7 +186,7 @@ export default {
         category3Id: "",
         categoryName: "",
         keyword: "",
-        order: "",
+        order: "1:asc",
         pageNo: 1,
         pageSize: 10,
         props: [],
@@ -241,7 +249,8 @@ export default {
     attrHandler(attr, attrValue) {
       let props = `${attr.attrId}:${attr.attrName}:${attrValue}`;
       // 数组去重
-      if (this.searchParams.props.indexOf(props) == -1) this.searchParams.props.push(props);
+      if (this.searchParams.props.indexOf(props) == -1)
+        this.searchParams.props.push(props);
       this.getData();
     },
 
@@ -249,7 +258,7 @@ export default {
     removeAttr(index) {
       this.searchParams.props.splice(index, 1);
       this.getData();
-    }
+    },
   },
   watch: {
     // 监听路由的信息是否发生变化，如果发生变化，再次发起请求
