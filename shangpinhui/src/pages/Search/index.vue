@@ -52,14 +52,14 @@
           <div class="sui-navbar">
             <div class="navbar-inner filter">
               <ul class="sui-nav">
-                <li :class="{ active: isOne }">
+                <li :class="{ active: isOne }" @click="changeOrder(1)">
                   <a>
                     综合
                     <span v-show="isOne && isAsc">⬆</span>
                     <span v-show="isOne && isDesc">⬇</span>
                   </a>
                 </li>
-                <li :class="{ active: isTwo }">
+                <li :class="{ active: isTwo }" @click="changeOrder(2)">
                   <a>
                     价格
                     <span v-show="isTwo && isAsc">⬆</span>
@@ -259,6 +259,22 @@ export default {
       this.searchParams.props.splice(index, 1);
       this.getData();
     },
+
+    // 排序
+    changeOrder(flag) {
+      let originOrder = this.searchParams.order;
+      let originFlag = this.searchParams.order.split(':')[0];
+      let originSort = this.searchParams.order.split(':')[1];
+
+      let newOrder = '';
+      if (flag == originFlag) {
+        newOrder = `${originFlag}:${originSort == 'desc' ? 'asc' : 'desc'}`;
+      } else {
+        newOrder = `${flag}:desc`
+      }
+      this.searchParams.order = newOrder;
+      this.getData();
+    }
   },
   watch: {
     // 监听路由的信息是否发生变化，如果发生变化，再次发起请求
