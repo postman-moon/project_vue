@@ -3,9 +3,12 @@ import App from './App.vue'
 
 import TypeNav from '@/components/TypeNav';
 import Carsoule from '@/components/Carsoule';
+import Pagination from './components/Pagination'
 
+// 全局注册组件
 Vue.component(TypeNav.name, TypeNav);
 Vue.component(Carsoule.name, Carsoule);
+Vue.component(Pagination.name, Pagination);
 
 Vue.config.productionTip = false
 // 引入路由
