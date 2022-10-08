@@ -88,6 +88,12 @@
                   :class="{ active: spuSaleAttrValue.isChecked == 1 }"
                   v-for="spuSaleAttrValue in spuSaleAttr.spuSaleAttrValueList"
                   :key="spuSaleAttrValue.id"
+                  @click="
+                    changeAction(
+                      spuSaleAttrValue,
+                      spuSaleAttr.spuSaleAttrValueList
+                    )
+                  "
                 >
                   {{ spuSaleAttrValue.saleAttrValueName }}
                 </dd>
@@ -359,6 +365,19 @@ export default {
     ...mapGetters(["categoryView", "skuInfo", "spuSaleAttrList"]),
     skuImageList() {
       return this.skuInfo.skuImageList || [];
+    },
+  },
+
+  methods: {
+    // 产品的售卖属性值切换高亮
+    changeAction(spuSaleAttrValue, arr) {
+      // 遍历全部售卖属性值 isChecked 为 0 没有高亮
+      arr.forEach((item) => {
+        item.isChecked = 0;
+      });
+
+      // 点击的那个售卖属性值
+      spuSaleAttrValue.isChecked = 1;
     },
   },
 };
