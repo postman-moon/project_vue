@@ -123,6 +123,7 @@
             :pageSize="searchParams.pageSize"
             :total="total"
             :continues="5"
+            @getPageNo="getPageNo"
           />
         </div>
       </div>
@@ -258,6 +259,14 @@ export default {
         newOrder = `${flag}:desc`;
       }
       this.searchParams.order = newOrder;
+      this.getData();
+    },
+
+    // 自定义事件的回调函数 --- 获取当前第几页
+    getPageNo(pageNo) {
+      // 整理带给服务器参数
+      this.searchParams.pageNo = pageNo;
+      // 再次发请求
       this.getData();
     },
   },

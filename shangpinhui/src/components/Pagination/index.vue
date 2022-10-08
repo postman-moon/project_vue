@@ -2,21 +2,42 @@
   <div class="pagination">
     <!-- <h1>{{ startNumAndEndNum }} --- 当前的页码 {{ pageNo }}</h1> -->
 
-    <button>上一页</button>
-    <button v-if="startNumAndEndNum.start > 1">1</button>
+    <button :disabled="pageNo == 1" @click="$emit('getPageNo', pageNo - 1)">
+      上一页
+    </button>
+    <button
+      v-if="startNumAndEndNum.start > 1"
+      @click="$emit('getPageNo', 1)"
+      :class="{ active: pageNo == 1 }"
+    >
+      1
+    </button>
     <button v-if="startNumAndEndNum.start > 2">...</button>
 
     <button
       v-for="(page, index) in startNumAndEndNum.end"
       :key="index"
       v-show="page >= startNumAndEndNum.start"
+      @click="$emit('getPageNo', page)"
+      :class="{ active: pageNo == page }"
     >
       {{ page }}
     </button>
 
     <button v-if="startNumAndEndNum.end < totalPages - 1">...</button>
-    <button v-if="startNumAndEndNum.end < totalPages">{{ totalPages }}</button>
-    <button>下一页</button>
+    <button
+      v-if="startNumAndEndNum.end < totalPages"
+      @click="$emit('getPageNo', totalPages)"
+      :class="{ active: pageNo == totalPages }"
+    >
+      {{ totalPages }}
+    </button>
+    <button
+      :disabled="pageNo == totalPages"
+      @click="$emit('getPageNo', pageNo + 1)"
+    >
+      下一页
+    </button>
 
     <button style="margin-left: 30px">共 {{ total }} 条</button>
   </div>
@@ -132,6 +153,10 @@ export default {
       background-color: #409eff;
       color: #fff;
     }
+  }
+
+  .active {
+    background-color: skyblue;
   }
 }
 </style>
