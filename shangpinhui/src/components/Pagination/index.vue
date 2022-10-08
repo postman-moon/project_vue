@@ -1,15 +1,21 @@
 <template>
   <div class="pagination">
+    <!-- <h1>{{ startNumAndEndNum }} --- 当前的页码 {{ pageNo }}</h1> -->
+
     <button>上一页</button>
-    <button>1</button>
-    <button>...</button>
-    <button>3</button>
-    <button>4</button>
-    <button>5</button>
-    <button>6</button>
-    <button>7</button>
-    <button>...</button>
-    <button>9</button>
+    <button v-if="startNumAndEndNum.start > 1">1</button>
+    <button v-if="startNumAndEndNum.start > 2">...</button>
+
+    <button
+      v-for="(page, index) in startNumAndEndNum.end"
+      :key="index"
+      v-show="page >= startNumAndEndNum.start"
+    >
+      {{ page }}
+    </button>
+
+    <button v-if="startNumAndEndNum.end < totalPages - 1">...</button>
+    <button v-if="startNumAndEndNum.end < totalPages">{{ totalPages }}</button>
     <button>下一页</button>
 
     <button style="margin-left: 30px">共 {{ total }} 条</button>
@@ -91,7 +97,7 @@ export default {
         start = totalPages - continues + 1;
       }
 
-      return start, end;
+      return { start, end };
     },
   },
 };
@@ -99,6 +105,7 @@ export default {
 
 <style lang="less" scoped>
 .pagination {
+  text-align: center;
   button {
     margin: 0 5px;
     background-color: #f4f4f5;
