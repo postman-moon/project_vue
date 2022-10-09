@@ -1,11 +1,11 @@
 <template>
   <div class="spec-preview">
     <img :src="imgObj.imgUrl" />
-    <div class="event"></div>
+    <div class="event" @mousemove="handler"></div>
     <div class="big">
-      <img :src="imgObj.imgUrl" />
+      <img :src="imgObj.imgUrl" ref="big" />
     </div>
-    <div class="mask"></div>
+    <div class="mask" ref="mask"></div>
   </div>
 </template>
 
@@ -13,9 +13,45 @@
 export default {
   name: "Zoom",
   props: ["skuImageList"],
+  data() {
+    return {
+      currentIndex: 0,
+    };
+  },
   computed: {
     imgObj() {
-      return this.skuImageList[0] || {};
+      return this.skuImageList[this.currentIndex] || {};
+    },
+  },
+  mounted() {
+    // 全局事件组件：获取兄弟组件传递过来的索引值
+    this.$bus.$on("getIndex", (index) => {
+      console.log(index);
+      // 修改响应式数据
+      this.currentIndex = index;
+    });
+  },
+  methods: {
+    handler(event) {
+      let mask = this.$refs.mask;
+      let big = this.$refs.big;
+
+      let left = event.offsetX - mask.offsetWidth / 2;
+      let top = event.offsetY - mask.offsetHeight / 2;
+
+      // 约束条件
+      if (left <= 0) left = 0;
+      if (left >= mask.offsetWidth) left = mask.offsetWidth;
+      if (top <= 0) top = 0;
+      if (top >= mask.offsetHeight) top = mask.offsetHeight;
+
+      // 修改元素的 left/top 值
+      mask.style.left = left + "px";
+      mask.style.top = top + "px";
+
+      // 修改大图
+      big.style.left = -2 * left + "px";
+      big.style.top = -2 * top + "px";
     },
   },
 };
