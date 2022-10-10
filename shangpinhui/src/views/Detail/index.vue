@@ -116,7 +116,9 @@
                 >
               </div>
               <div class="add">
-                <a href="javascript:">加入购物车</a>
+                <!-- 以前咱们的路由跳转：从 A 路由跳转到 B 路由，这里在加入购物车，进行路由跳转之前，发请求把你
+                  购买的产品信息通过请求的形式通知服务器，服务器进行相应的存储 -->
+                <a href="javascript:" @click="addShopcar">加入购物车</a>
               </div>
             </div>
           </div>
@@ -406,6 +408,16 @@ export default {
       } else {
         this.skuNum = parseInt(value);
       }
+    },
+
+    // 加入购物车的回调
+    addShopcar() {
+      console.log("111");
+      // 1. 发请求 ———— 将产品加入到数据库（通知服务器）
+      this.$store.dispatch("addOrUpdateShopCart", {
+        skuId: this.$route.params.skuid,
+        skuNum: this.skuNum,
+      });
     },
   },
 };
