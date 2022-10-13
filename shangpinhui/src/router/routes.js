@@ -4,6 +4,7 @@ import Search from '@/views/Search';
 import Login from '@/views/Login';
 import Register from '@/views/Register';
 import Detail from '@/views/Detail';
+import AddCartSuccess from '@/views/AddCartSuccess'
 
 export default [{
   path: "/home",
@@ -50,7 +51,15 @@ export default [{
   path: '/detail/:skuid',
   component: Detail,
   meta: {
-    show: false,
+    show: true,
+  }
+},
+{
+  path: '/addcartsuccess',
+  name: 'addcartsuccess',
+  component: AddCartSuccess,
+  meta: {
+    show: true,
   }
 },
 

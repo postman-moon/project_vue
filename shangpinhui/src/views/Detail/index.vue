@@ -411,13 +411,28 @@ export default {
     },
 
     // 加入购物车的回调
-    addShopcar() {
-      console.log("111");
+    async addShopcar() {
       // 1. 发请求 ———— 将产品加入到数据库（通知服务器）
-      this.$store.dispatch("addOrUpdateShopCart", {
-        skuId: this.$route.params.skuid,
-        skuNum: this.skuNum,
-      });
+      /* 
+        当前这里是派发了一个 action，也向服务器发请求，判断加入购物车是成功还是失败了
+        this.$store.dispatch("addOrUpdateShopCart", {
+          skuId: this.$route.params.skuid,
+          skuNum: this.skuNum,
+        });
+        上面这行代码说白了：调用仓库中的 addOrUpdateShopCart，这个方法加上 asyc，返回一定是一个 Promise
+      */
+
+      try {
+        await this.$store.dispatch("addOrUpdateShopCart", {
+          skuId: this.$route.params.skuid,
+          skuNum: this.skuNum,
+        });
+
+        // 路由跳转
+        this.$router.push({ name: "addcartsuccess" });
+      } catch (error) {
+        alert(error.message);
+      }
     },
   },
 };
