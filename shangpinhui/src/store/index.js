@@ -7,12 +7,14 @@ Vue.use(Vuex);
 import home from './home';
 import search from './search';
 import detail from './detail';
+import shopCart from './shopCart';
 
 // 对外暴露 store 类的一个实例
 export default new Vuex.Store({
   modules: {
     home,
     search,
-    detail
+    detail,
+    shopCart
   }
 });
