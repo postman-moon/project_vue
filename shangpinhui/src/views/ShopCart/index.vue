@@ -32,15 +32,26 @@
             <span class="price">{{ cart.skuPrice }}.00</span>
           </li>
           <li class="cart-list-con5">
-            <a href="javascript:void(0)" class="mins">-</a>
+            <a
+              href="javascript:void(0)"
+              class="mins"
+              @click="handle('minus', -1, cart)"
+              >-</a
+            >
             <input
               autocomplete="off"
               type="text"
               minnum="1"
               class="itxt"
               :value="cart.skuNum"
+              @change="handle('change', $event.target.value * 1, cart)"
             />
-            <a href="javascript:void(0)" class="plus">+</a>
+            <a
+              href="javascript:void(0)"
+              class="plus"
+              @click="handle('add', 1, cart)"
+              >+</a
+            >
           </li>
           <li class="cart-list-con6">
             <span class="sum">{{ cart.skuNum * cart.skuPrice }}.00</span>
@@ -88,6 +99,44 @@ export default {
   methods: {
     getData() {
       this.$store.dispatch("getCartList");
+    },
+
+    // 修改某一个产品的个数
+    async handle(type, disNum, cart) {
+      // type:为了区分这三个元素
+      // disNum：+ 变化量（1） - 变化量（-1）   input 最终的个数（并不是变化量）
+      // cart：哪一个产品【身上有id】
+
+      switch (type) {
+        case "add":
+          disNum = 1;
+          break;
+
+        case "minus":
+          // 判断产品的个数大于1，才可以传递给服务器 -1
+          // 产品的个数小于等于1，传递给服务器个数0（原封不动）
+          disNum = cart.skuNum > 1 ? -1 : 0;
+          break;
+
+        case "change":
+          // 用户输入进来的最终量，非法的（带有汉字），带给服务器数字
+          if (isNaN(disNum) || disNum < 1) {
+            disNum = 0;
+          } else {
+            disNum = parseInt(disNum) - cart.skuNum;
+          }
+          break;
+      }
+
+      try {
+        await this.$store.dispatch("addOrUpdateShopCart", {
+          skuId: cart.skuId,
+          skuNum: disNum,
+        });
+
+        // 再一次获取服务器最新的数据进行展示
+        this.getData();
+      } catch (error) {}
     },
   },
   computed: {
