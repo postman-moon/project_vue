@@ -70,7 +70,7 @@
         <span>全选</span>
       </div>
       <div class="option">
-        <a href="#none">删除选中的商品</a>
+        <a @click="deleteAllCheckedCart">删除选中的商品</a>
         <a href="#none">移到我的关注</a>
         <a href="#none">清除下柜商品</a>
       </div>
@@ -146,6 +146,18 @@ export default {
         // 如果删除成功再次发请求获取新的数据进行展示
         this.getData();
       } catch (error) {}
+    },
+
+    // 删除全部选中的商品
+    // 这个回调函数咱门没办法收集到一些有用数据
+    async deleteAllCheckedCart() {
+      try {
+        await this.$store.dispatch("deleteAllCheckedCart");
+        // 再次请求获取购物车列表
+        this.getData();
+      } catch (error) {
+        alert(error.message);
+      }
     },
   },
   computed: {
