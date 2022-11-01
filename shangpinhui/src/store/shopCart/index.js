@@ -1,4 +1,4 @@
-import { reqCartList, reqDeleteCartById } from "@/api";
+import { reqCartList, reqDeleteCartById, reqCheckCartItem } from "@/api";
 
 const state = {
   cartList: [],
@@ -18,6 +18,16 @@ const actions = {
       commit('GETCARTLIST', result.data);
     }
   },
+
+    /* 
+  设置购物项的选中状态
+  */
+ async updateCheckedById ({commit}, {skuId, isChecked}) {
+  const result = await reqCheckCartItem(skuId, isChecked)
+  if (result.code!==200) {
+    throw new Error('勾选购物项失败')
+  }
+},
 
   // 删除购物车某一个产品
   async deleteCartListBySkuId({ commit }, skuId) {
@@ -42,6 +52,17 @@ const actions = {
 
     // 只要全部的 p1|p2...都成功，返回结果即为成功
 		// 如果有一个失败，返回即为失败结果
+    return Promise.all(promiseAll);
+  },
+
+  // 修改全部产品的状态
+  updateAllCartIsChecked({dispatch, state}, isChecked) {
+    let promiseAll = [];
+    state.cartList[0].cartInfoList.forEach(item => {
+      let promise = dispatch('updateCheckedById', { skuId: item.skuId, isChecked });
+      promiseAll.push(promise);
+    });
+
     return Promise.all(promiseAll);
   }
 };
