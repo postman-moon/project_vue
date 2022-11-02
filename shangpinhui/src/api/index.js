@@ -68,3 +68,20 @@ export const reqCheckCartItem = (skuId, isChecked) =>
     url: `/cart/checkCart/${skuId}/${isChecked}`,
     method: "get",
   });
+
+// 获取验证码
+// URL: /api/user/passport/sendCode/{phone}       method: get
+export const reqGetCode = (phone) =>
+  requests({
+    url: `/user/passport/sendCode/${phone}`,
+    method: 'get',
+  });
+
+// 注册
+// URL: /api/user/passport/register             method: post
+export const reqUserRegister = (postParams) =>
+  requests({
+    url: '/user/passport/register ',
+    data: postParams,
+    method: 'post',
+  });
