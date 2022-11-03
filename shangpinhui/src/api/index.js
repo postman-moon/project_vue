@@ -94,3 +94,11 @@ export const reqUserLogin = (postParams) =>
     data: postParams,
     method: 'post'
   });
+
+// 获取用户信息【需要带着用户的token向服务器要用户信息】
+// URL： /api/user/passport/auth/getUserInfo    method: get
+export const reqUserInfo = () =>
+  requests({
+    url: '/user/passport/auth/getUserInfo',
+    method: 'get'
+  });

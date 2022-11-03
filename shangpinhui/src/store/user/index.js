@@ -1,8 +1,9 @@
-import { reqGetCode, reqUserLogin, reqUserRegister } from "@/api";
+import { reqGetCode, reqUserInfo, reqUserLogin, reqUserRegister } from "@/api";
 
 const state = {
   code: '',
   token: '',
+  userInfo: {},
 };
 const mutations = {
   GETCODE(state, code) {
@@ -11,6 +12,10 @@ const mutations = {
 
   USERLOGIN(state, token) {
     state.token = token;
+  },
+
+  GETUSERINFO(state, userInfo) {
+    state.userInfo = userInfo;
   },
 };
 const actions = {
@@ -46,6 +51,19 @@ const actions = {
     console.log(result);
     if (result.code === 200) {
       commit('USERLOGIN', result.data.token);
+      return 'ok';
+    } else {
+      return Promise.reject(new Error('faile'));
+    }
+  },
+
+  // 获取用户信息
+  async getUserInfo({ commit }) {
+    let result = await reqUserInfo();
+    console.log('getUserInfo', result);
+
+    if (result.code === 200) {
+      commit('GETUSERINFO', result.data);
       return 'ok';
     } else {
       return Promise.reject(new Error('faile'));

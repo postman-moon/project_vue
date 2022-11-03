@@ -5,10 +5,14 @@
       <div class="container">
         <div class="loginList">
           <p>尚品汇欢迎您！</p>
-          <p>
+          <p v-if="!userName">
             <span>请</span>
             <router-link to="/login">登录</router-link>
             <router-link to="/register" class="register">免费注册</router-link>
+          </p>
+          <p v-else>
+            <a>{{ userName.nickName }}</a>
+            <a class="register">退出登录</a>
           </p>
         </div>
         <div class="typeList">
@@ -83,7 +87,6 @@ export default {
         },
       }); */
 
-
       /*  ***************************************************************************** */
       // 面试题1：路由传递参数（对象写法）path是否可以结合params参数一起使用？
       // 答：路由跳转传参的时候，对象的写法可以是name、path形式，但是需要注意的是，path这种谢大不能与params参数一起
@@ -137,9 +140,9 @@ export default {
       // 代表的是如果有 query 参数也带过去
       if (this.$route.query) {
         let location = {
-          name: 'search',
+          name: "search",
           params: {
-            keyword: this.keyword || undefined
+            keyword: this.keyword || undefined,
           },
         };
         location.query = this.$route.query;
@@ -148,9 +151,15 @@ export default {
     },
   },
   mounted() {
-    this.$bus.$on('clear', () => {
-      this.keyword = '';
-    })
+    this.$bus.$on("clear", () => {
+      this.keyword = "";
+    });
+  },
+  computed: {
+    // 用户信息
+    userName() {
+      return this.$store.state.user.userInfo;
+    },
   },
 };
 </script>
