@@ -1,12 +1,17 @@
-import { reqGetCode, reqUserRegister } from "@/api";
+import { reqGetCode, reqUserLogin, reqUserRegister } from "@/api";
 
 const state = {
   code: '',
+  token: '',
 };
 const mutations = {
   GETCODE(state, code) {
     state.code = code
-  }
+  },
+
+  USERLOGIN(state, token) {
+    state.token = token;
+  },
 };
 const actions = {
   // 获取验证码
@@ -31,6 +36,19 @@ const actions = {
       return 'ok';
     } else {
       return Promise.reject(new Error('fail'));
+    }
+  },
+
+  // 登录业务(token)
+  async userLogin({ commit }, postParams) {
+
+    let result = await reqUserLogin(postParams);
+    console.log(result);
+    if (result.code === 200) {
+      commit('USERLOGIN', result.data.token);
+      return 'ok';
+    } else {
+      return Promise.reject(new Error('faile'));
     }
   },
 };

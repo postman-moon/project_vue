@@ -85,3 +85,12 @@ export const reqUserRegister = (postParams) =>
     data: postParams,
     method: 'post',
   });
+
+// 登录
+// URL: /api/user/passport/login      method: post
+export const reqUserLogin = (postParams) =>
+  requests({
+    url: '/user/passport/login',
+    data: postParams,
+    method: 'post'
+  });
