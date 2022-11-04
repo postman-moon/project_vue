@@ -97,8 +97,6 @@ export default {
 
         console.log(this.$store.state);
 
-        localStorage.setItem("token", this.$store.state.user.token);
-
         // 跳转到 home 页面
         this.$router.push("/home");
       } catch (error) {

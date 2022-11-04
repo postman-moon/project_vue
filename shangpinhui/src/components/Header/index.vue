@@ -11,7 +11,7 @@
             <router-link to="/register" class="register">免费注册</router-link>
           </p>
           <p v-else>
-            <a>{{ userName.nickName }}</a>
+            <a>{{ userName }}</a>
             <a class="register">退出登录</a>
           </p>
         </div>
@@ -158,7 +158,7 @@ export default {
   computed: {
     // 用户信息
     userName() {
-      return this.$store.state.user.userInfo;
+      return this.$store.state.user.userInfo.name;
     },
   },
 };

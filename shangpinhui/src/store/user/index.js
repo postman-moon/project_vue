@@ -1,8 +1,9 @@
 import { reqGetCode, reqUserInfo, reqUserLogin, reqUserRegister } from "@/api";
+import { setToken, getToken } from "@/utils/token";
 
 const state = {
   code: '',
-  token: '',
+  token: getToken(),
   userInfo: {},
 };
 const mutations = {
@@ -51,6 +52,7 @@ const actions = {
     console.log(result);
     if (result.code === 200) {
       commit('USERLOGIN', result.data.token);
+      setToken(result.data.token);
       return 'ok';
     } else {
       return Promise.reject(new Error('faile'));

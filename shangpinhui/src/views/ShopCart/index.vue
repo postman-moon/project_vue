@@ -141,7 +141,9 @@ export default {
 
         // 再一次获取服务器最新的数据进行展示
         this.getData();
-      } catch (error) {}
+      } catch (error) {
+        alert(error.message);
+      }
     },
 
     // 删除某一个产品的操作
