@@ -1,5 +1,5 @@
-import { reqGetCode, reqUserInfo, reqUserLogin, reqUserRegister } from "@/api";
-import { setToken, getToken } from "@/utils/token";
+import { reqGetCode, reqLogout, reqUserInfo, reqUserLogin, reqUserRegister } from "@/api";
+import { setToken, getToken, removeToken } from "@/utils/token";
 
 const state = {
   code: '',
@@ -17,6 +17,16 @@ const mutations = {
 
   GETUSERINFO(state, userInfo) {
     state.userInfo = userInfo;
+  },
+
+  // 清除本地数据
+  CALER(state) {
+    // 把仓库中相关用户信息清空
+    state.token = '';
+    state.userInfo = {};
+
+    // 本地存储数据清空
+    removeToken();
   },
 };
 const actions = {
@@ -66,6 +76,20 @@ const actions = {
 
     if (result.code === 200) {
       commit('GETUSERINFO', result.data);
+      return 'ok';
+    } else {
+      return Promise.reject(new Error('faile'));
+    }
+  },
+
+  // 退出登录
+  async userLogout({commit}) {
+    // 只是向服务器发起一次请求，通知服务器清除 token
+    let result = await reqLogout();
+
+    if (result.code === 200) {
+      // action 里面不能操作 state，提交 mutation 修改 state
+      commit('CALER');
       return 'ok';
     } else {
       return Promise.reject(new Error('faile'));
