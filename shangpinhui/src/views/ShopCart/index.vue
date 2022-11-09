@@ -86,7 +86,7 @@
           <i class="summoney">{{ totalPrice }}.00</i>
         </div>
         <div class="sumbtn">
-          <a class="sum-btn" href="###" target="_blank">结算</a>
+          <a class="sum-btn" @click="handleBalance">结算</a>
         </div>
       </div>
     </div>
@@ -179,6 +179,11 @@ export default {
         alert(error.message);
       }
     },
+
+    // 结算
+    handleBalance() {
+      this.$router.push('/trade');
+    }
   },
   computed: {
     ...mapGetters(["cartList"]),

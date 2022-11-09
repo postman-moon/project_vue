@@ -74,39 +74,55 @@ export const reqCheckCartItem = (skuId, isChecked) =>
 export const reqGetCode = (phone) =>
   requests({
     url: `/user/passport/sendCode/${phone}`,
-    method: 'get',
+    method: "get",
   });
 
 // 注册
 // URL: /api/user/passport/register             method: post
 export const reqUserRegister = (postParams) =>
   requests({
-    url: '/user/passport/register ',
+    url: "/user/passport/register ",
     data: postParams,
-    method: 'post',
+    method: "post",
   });
 
 // 登录
 // URL: /api/user/passport/login      method: post
 export const reqUserLogin = (postParams) =>
   requests({
-    url: '/user/passport/login',
+    url: "/user/passport/login",
     data: postParams,
-    method: 'post'
+    method: "post",
   });
 
 // 获取用户信息【需要带着用户的token向服务器要用户信息】
 // URL： /api/user/passport/auth/getUserInfo    method: get
 export const reqUserInfo = () =>
   requests({
-    url: '/user/passport/auth/getUserInfo',
-    method: 'get'
+    url: "/user/passport/auth/getUserInfo",
+    method: "get",
   });
 
 // 退出登录
 // URL：/api/user/passport/logout        method: get
-export const reqLogout = () => 
+export const reqLogout = () =>
   requests({
-    url: '/user/passport/logout',
-    method: 'get'
+    url: "/user/passport/logout",
+    method: "get",
+  });
+
+// 获取用户地址信息
+// URL：/api/user/userAddress/auth/findUserAddressList      method: get
+export const reqAddressInfo = () =>
+  requests({
+    url: "/user/userAddress/auth/findUserAddressList",
+    method: "get",
+  });
+
+// 获取商品清单
+// URL: /api/order/auth/trade     method: get
+export const reqOrderInfo = () =>
+  requests({
+    url: "/order/auth/trade",
+    method: "get",
   });
